@@ -43,12 +43,16 @@ class TodoResource extends Resource
                 TextColumn::make('title')
                     ->searchable()
                     ->description(fn ($record) => $record->description)->label('Tarefa'),
-                ToggleColumn::make('completed')->label('Completa?'),
+                Tables\Columns\ToggleColumn::make('completed')
+                    ->label('Completa?'),
             ])
             ->filters([
                 Tables\Filters\Filter::make('completed')
                     ->label('Completa')
                     ->query(fn (Builder $query): Builder => $query->where('completed', true)),
+                Tables\Filters\Filter::make('incomplete')
+                    ->label('Incompleta')
+                    ->query(fn (Builder $query): Builder => $query->where('completed', false)),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
